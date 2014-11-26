@@ -36,7 +36,7 @@ get_services() {
 		[[ "$line" =~ ^(.+)\ ([^\ ]+)$ ]] || continue
 		local name="${BASH_REMATCH[1]// /_}"
 		local service_id="${BASH_REMATCH[2]}"
-		[[ "$service_id" =~ ^(wifi|vpn)_ ]] && echo "$name $service_id"
+		[[ "$service_id" =~ ^(wifi|vpn|ethernet)_ ]] && echo "$name $service_id"
 	done < <(${CONNMANCTL[*]} services | sed 's/^.\{4\}//g' | tr -s ' ' | sort) >> $SCAN_RESULT
 }
 
@@ -106,7 +106,7 @@ dmenu_ask() {
 }
 
 get_services
-index="$(create_dmenu | dmenu -l 10 -i -p "select wifi service" | sed 's/^ *//g' | cut -d ' ' -f 1)"
+index="$(create_dmenu | dmenu -l 10 -i -p "select service" | sed 's/^ *//g' | cut -d ' ' -f 1)"
 
 if [[ "$index" == setup ]] ; then
 	# create vpn mode
